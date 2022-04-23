@@ -1,7 +1,8 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
-const galleryEl = document.querySelector('.gallery')
+const galleryEl = document.querySelector('.gallery');
+const modalImgEl =document.querySelector('.basicLightbox basicLightbox--img')
 
 
 function createImagesMarkup(imgArray) {
@@ -14,31 +15,7 @@ function createImagesMarkup(imgArray) {
 
         return linkEl;
     })
-}
-
-galleryEl.append(...createImagesMarkup(galleryItems))
-
-galleryEl.addEventListener('click', onOpenModal)
-
-// -------------SIDE-FUNCTIONS --------------
-
-
-function onOpenModal(evt) {
-    evt.preventDefault();
-
-    if (evt.target.nodeName !== 'IMG') {
-        return;
-    }
-    
-    const parrentEl = evt.target.parentNode.href;
-
-    const modalImg = basicLightbox.create(`
-        <img src="${parrentEl}" width="800" height="600">
-    `)
-
-    modalImg.show(modalImg)
-
-}
+};
 
 function createLink (href) {
     const linkEl = document.createElement('a')
@@ -54,7 +31,45 @@ function createImg (src, data, alt) {
         imageEl.dataset.source = data;
         imageEl.alt = alt;
     return imageEl;
-}
+};
+
+galleryEl.append(...createImagesMarkup(galleryItems));
+
+
+
+// -------------MODAL-FUNCTIONS --------------
+
+galleryEl.addEventListener('click', onOpenModal);
+
+let modalImg = null;
+
+function onOpenModal(evt) {
+    evt.preventDefault();
+
+    if (evt.target.nodeName !== 'IMG') {
+        return;
+    }
+    
+    const parrentEl = evt.target.parentNode.href;
+
+    modalImg = basicLightbox.create(`
+        <img src="${parrentEl}" width="800" height="600">
+    `)
+
+    modalImg.show(modalImg);
+
+    document.addEventListener('keydown', onCloseModal)
+};
+
+function onCloseModal(evt) {
+    evt.preventDefault();
+
+    if (evt.code === 'Escape') {
+        modalImg.close();
+    };
+
+    document.removeEventListener('keydown', onCloseModal);
+};
 
 
 
