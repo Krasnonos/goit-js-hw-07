@@ -12,6 +12,7 @@ function createImagesMarkup(imgArray) {
 
         image.src = preview;
         image.dataset.fullSrc = original;
+        image.classList.add('gallery__image')
         image.alt = description;
 
         return image;
