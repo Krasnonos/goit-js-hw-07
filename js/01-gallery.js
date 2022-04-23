@@ -2,29 +2,34 @@ import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
 const galleryEl = document.querySelector('.gallery');
-const modalImgEl =document.querySelector('.basicLightbox basicLightbox--img')
-
 
 function createImagesMarkup(imgArray) {
     return imgArray.map(({ preview, original, description }) => {
-        const linkEl = createLink(original);
-
-        const imageEl = createImg(preview, original, description)
+        const wrapEl = createWrapEl();
+        const linkEl = createLinkEl(original);
+        const imageEl = createImgEl(preview, original, description)
         
         linkEl.append(imageEl);
+        wrapEl.append(linkEl)
 
-        return linkEl;
+        return wrapEl;
     })
 };
 
-function createLink (href) {
+function createWrapEl () {
+    const wrapEl = document.createElement('div');
+        wrapEl.classList.add('gallery__item')
+    return wrapEl;
+}
+
+function createLinkEl (href) {
     const linkEl = document.createElement('a')
         linkEl.classList.add('gallery__link');
         linkEl.href = href;
     return linkEl;
 };
 
-function createImg (src, data, alt) {
+function createImgEl (src, data, alt) {
     const imageEl = document.createElement('img');
         imageEl.classList.add('gallery__image')
         imageEl.src = src;
